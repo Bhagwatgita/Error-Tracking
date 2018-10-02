@@ -9,6 +9,8 @@ namespace ErrorTracking
 {
     public partial class SiteMaster : MasterPage
     {
+        private const int APPLICATION_MANAGEMENT=10;
+        private const int USER_DATA = 20;
         protected void Page_Load(object sender, EventArgs e)
         {
 
