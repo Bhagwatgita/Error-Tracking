@@ -11,8 +11,8 @@ namespace ErrorTracking
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var exception = new HttpException();
-            throw exception;
+            //var exception = new HttpException();
+            //throw exception;
         }
     }
 }
