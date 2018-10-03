@@ -270,6 +270,8 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Employee\Create.aspx" />
+    <Content Include="Employee\Service\EmployeeService.asmx" />
     <Content Include="Error.aspx" />
     <Content Include="ErrorView\List.aspx" />
     <Content Include="ErrorView\Manage.aspx" />
@@ -366,10 +368,13 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\Employee\employee.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />
     <Content Include="Scripts\WebForms\Focus.js" />
@@ -396,6 +401,8 @@
     <Content Include="System_Error_Log\ApplicationMenus.sql" />
     <Content Include="System_Error_Log\ErrorLogs.sql" />
     <Content Include="System_Error_Log\MenuPopulate.sql" />
+    <Content Include="System_Error_Log\proc_EmployeeOperation.sql" />
+    <Content Include="System_Error_Log\proc_menuPopulate.sql" />
     <Content Include="System_Error_Log\Role_Menu_Learn.sql" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -426,6 +433,17 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Employee\Create.aspx.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\Create.aspx.designer.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Employee\Service\EmployeeService.asmx.cs">
+      <DependentUpon>EmployeeService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -452,6 +470,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\DbHelpers\Dao.cs" />
+    <Compile Include="Repository\Employee\EmployeeRepository.cs" />
     <Compile Include="Repository\Menu\MenuRepository.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Web;
+﻿using System.Data;
 using ErrorTracking.Repository.DbHelpers;
 
 namespace ErrorTracking.Repository.Menu
@@ -15,10 +11,10 @@ namespace ErrorTracking.Repository.Menu
         {
             this._dao = new Dao();
         }
-        public DataTable ObtainMenu(int groupPosition)
+        public DataSet ObtainMenu()
         {
-            var sql = $@"EXEC proc_menuPopulate  @groupPosition={groupPosition}";
-            var db = _dao.ExecuteDataTable(sql);
+            var sql = $@"EXEC proc_menuPopulate ";
+            var db = _dao.ExecuteDataset(sql);
             return db;
         }
     }
