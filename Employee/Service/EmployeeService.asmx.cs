@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Services;
 using System.Web.Services;
 using ErrorTracking.Repository.Employee;
 
@@ -28,6 +30,23 @@ namespace ErrorTracking.Employee.Service
         [WebMethod]
         public void SaveEmployee(EmployeeModel emp)
         {
+            //if (emp==null)
+            //{
+            //    emp = new EmployeeModel()
+            //    {
+            //        Name = $@"Rabindra",
+            //        Gender = "Male",
+            //        Occupation = "Farmer",
+            //        Address = "Kathmandu",
+            //        Dob = Convert.ToDateTime("2018-10-03"),
+            //        IdType = "CitizenShip-Card",
+            //        Email = "rabindra@gmail.com",
+            //        MobileNumber = "9845632233",
+            //        WalletNumber = "4256",
+            //        Salary = Convert.ToDouble(1000)
+
+            //    };
+            //}
             //var empResp = new EmployeeModel
             //{
             //    Name = $@"Rabindra",
@@ -70,7 +89,7 @@ namespace ErrorTracking.Employee.Service
                 Gender = Convert.ToString(dt["Gender"]),
                 Occupation = Convert.ToString(dt["Occupation"]),
                 Address = Convert.ToString(dt["Address"]),
-                Dob = Convert.ToDateTime(Convert.ToString(dt["Dob"])),
+                Dob = Convert.ToString(dt["Dob"],CultureInfo.CreateSpecificCulture("en-US")),
                 Email = Convert.ToString(dt["Email"]),
                 IdType = Convert.ToString(dt["IdType"]),
                 MobileNumber = Convert.ToString(dt["MobileNumber"]),
@@ -83,6 +102,7 @@ namespace ErrorTracking.Employee.Service
             
         }
         [WebMethod]
+        [ScriptMethod(UseHttpGet = true)]
         public List<EmployeeModel> RetrieveAllEmployeeData()
         {
             var lstEmployeeResponse = new List<EmployeeModel>();
@@ -97,6 +117,11 @@ namespace ErrorTracking.Employee.Service
                 }
                 else
                 {
+                    //DateTime date;
+                    //DateTime.TryParseExact(Convert.ToString(row["Dob"]), "MM/dd/yyyy",
+                    //    System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None,
+                    //    out date);
+                    //var dob = Convert.ToString(date);
                     var empResp = new EmployeeModel
                     {
                         Id=Convert.ToInt32(row["Id"]),
@@ -104,12 +129,12 @@ namespace ErrorTracking.Employee.Service
                         Gender = Convert.ToString(row["Gender"]),
                         Occupation = Convert.ToString(row["Occupation"]),
                         Address = Convert.ToString(row["Address"]),
-                        Dob = Convert.ToDateTime(row["Dob"].ToString()),
+                        Dob = Convert.ToString(row["Dob"]),
                         IdType = Convert.ToString(row["IdType"]),
                         Email = Convert.ToString(row["Email"]),
                         MobileNumber = Convert.ToString(row["MobileNumber"]),
                         WalletNumber = Convert.ToString(row["WalletNumber"]),
-                        Salary = Convert.ToDouble(row["Salary"].ToString())
+                        Salary = Convert.ToDouble(Convert.ToString(row["Salary"]))
                     };
                     lstEmployeeResponse.Add(empResp);
                 }
@@ -117,5 +142,8 @@ namespace ErrorTracking.Employee.Service
 
             return lstEmployeeResponse;
         }
+
+
+       
     }
 }

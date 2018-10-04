@@ -85,7 +85,7 @@ namespace ErrorTracking.Repository.Employee
         public double Salary { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
-        public DateTime Dob { get; set; }
+        public string Dob { get; set; }
         public string Occupation { get; set; }
         public string IdType { get; set; }
         public string WalletNumber { get; set; }

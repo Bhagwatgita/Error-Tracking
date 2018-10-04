@@ -9,7 +9,7 @@ $(document).ready(function () {
 function loadData() {
     $.ajax({
         url: "/Employee/Service/EmployeeService.asmx/RetrieveAllEmployeeData",
-        type: "POST",
+        type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
@@ -33,7 +33,7 @@ function loadData() {
             $('.tbody').html(html);
         },
         error: function (errormessage) {
-            //alert(errormessage.responseText);
+            alert(errormessage.responseText);
             alert("Data not retrieved");
         }
     });
@@ -41,51 +41,118 @@ function loadData() {
 
 //Add Data Function 
 function Add() {
-    var res = validate();
-    if (res == false) {
-        return false;
-    }
-    var empObj = {
-        EmployeeID: $('#EmployeeID').val(),
+    //var res = validate();
+    //if (res == false) {
+    //    return false;
+    //}
+    var emp = {
+        //Id: $('#EmployeeID').val(),
         Name: $('#Name').val(),
-        Age: $('#Age').val(),
-        State: $('#State').val(),
-        Country: $('#Country').val()
+        Gender: $('#Gender').val(),
+        Salary: $('#Salary').val(),
+        Address: $('#Address').val(),
+        Email: $('#Email').val(),
+        Dob: $('#Dob').val(),
+        Occupation: $('#Occupation').val(),
+        IdType: $('#IdType').val(),
+        WalletNumber: $('#WalletNumber').val(),
+        MobileNumber: $('#MobileNumber').val()
     };
+    console.log(emp);
+    alert(JSON.stringify({emp: emp }));
     $.ajax({
-        url: "/Home/Add",
-        data: JSON.stringify(empObj),
+        url: "/Employee/Service/EmployeeService.asmx/SaveEmployee",
+        data:  JSON.stringify({emp: emp }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        
         success: function (result) {
+            debugger;
+            console.log(result);
             loadData();
             $('#myModal').modal('hide');
         },
         error: function (errormessage) {
+            debugger;
             alert(errormessage.responseText);
         }
     });
 }
+//function getbyID(id) {
+//    var settings = {
+//  "async": true,
+//  "crossDomain": true,
+//  "url": "/Employee/Service/EmployeeService.asmx/RetrieveSingleEmployee",
+//  "method": "POST",
+//  "headers": {
+//    "Content-Type": "application/json",
+//    "Cache-Control": "no-cache",
+//    "Postman-Token": "b6c372b5-9f2a-46d4-a99d-c1ba44807486"
+//  },
+//  "processData": false,
+//  "data": "{\n\"id\":\"2\"\n}\n\t\n   \n"
+//}
 
+//$.ajax(settings).done(function (result) {
+//    console.log(result);
+//     $('#Id').val(result.d.Id);
+//            $('#Name').val(result.d.Name);
+//            $('#Gender').val(result.d.Gender);
+//            $('#Salary').val(result.d.Salary);
+//            $('#Address').val(result.d.Address);
+//            $('#Email').val(result.d.Email);
+//            $('#Dob').val(result.d.Dob);
+//            $('#Occupation').val(result.d.Occupation);
+//            $('#IdType').val(result.d.IdType);
+//            $('#WalletNumber').val(result.d.WalletNumber);
+//            $('#MobileNumber').val(result.d.MobileNumber);
+
+//            $('#myModal').modal('show');
+//            $('#btnUpdate').show();
+//            $('#btnAdd').hide();
+
+//});
+//}
+
+$.date = function(dateObject) {
+    var d = new Date(dateObject);
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    var date = year + "-" + month + "-" + day;
+
+    return date;
+};
 //Function for getting the Data Based upon Employee ID
-function getbyID(EmpID) {
-    $('#Name').css('border-color', 'lightgrey');
-    $('#Age').css('border-color', 'lightgrey');
-    $('#State').css('border-color', 'lightgrey');
-    $('#Country').css('border-color', 'lightgrey');
+function getbyID(id) {
+    setBorderColorGrey();
     $.ajax({
-        url: "/Home/getbyID/" + EmpID,
-        typr: "GET",
+        url: "/Employee/Service/EmployeeService.asmx/RetrieveSingleEmployee",
+        type: "POST",
+        data:  JSON.stringify({ id:id}),
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         success: function (result) {
-            $('#EmployeeID').val(result.EmployeeID);
-            $('#Name').val(result.Name);
-            $('#Age').val(result.Age);
-            $('#State').val(result.State);
-            $('#Country').val(result.Country);
+            $('#Id').val(result.d.Id);
+            $('#Name').val(result.d.Name);
+            $('#Gender').val(result.d.Gender);
+            $('#Salary').val(result.d.Salary);
+            $('#Address').val(result.d.Address);
+            $('#Email').val(result.d.Email);
+            $('#Dob').attr("value",$.date(result.d.Dob));
+            $('#Occupation').val(result.d.Occupation);
+            $('#IdType').val(result.d.IdType);
+            $('#WalletNumber').val(result.d.WalletNumber);
+            $('#MobileNumber').val(result.d.MobileNumber);
 
+            $('#myModalLabel').html("Update Employee");
             $('#myModal').modal('show');
             $('#btnUpdate').show();
             $('#btnAdd').hide();
@@ -99,31 +166,33 @@ function getbyID(EmpID) {
 
 //function for updating employee's record
 function Update() {
-    var res = validate();
-    if (res == false) {
-        return false;
-    }
+    //var res = validate();
+    //if (res == false) {
+    //    return false;
+    //}
     var empObj = {
-        EmployeeID: $('#EmployeeID').val(),
+        Id: $('#Id').val(),
         Name: $('#Name').val(),
-        Age: $('#Age').val(),
-        State: $('#State').val(),
-        Country: $('#Country').val(),
+        Gender: $('#Gender').val(),
+        Salary: $('#Salary').val(),
+        Address: $('#Address').val(),
+        Email: $('#Email').val(),
+        Dob: $('#Dob').val(),
+        Occupation: $('#Occupation').val(),
+        IdType: $('#IdType').val(),
+        WalletNumber: $('#WalletNumber').val(),
+        MobileNumber: $('#MobileNumber').val()
     };
     $.ajax({
-        url: "/Home/Update",
-        data: JSON.stringify(empObj),
+        url: "/Employee/Service/EmployeeService.asmx/UpdateEmployee",
+        data:  JSON.stringify({emp: empObj }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
             loadData();
             $('#myModal').modal('hide');
-            $('#EmployeeID').val("");
-            $('#Name').val("");
-            $('#Age').val("");
-            $('#State').val("");
-            $('#Country').val("");
+            clearObjectData();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -132,12 +201,13 @@ function Update() {
 }
 
 //function for deleting employee's record
-function Delele(ID) {
+function Delele(Id) {
     var ans = confirm("Are you sure you want to delete this Record?");
     if (ans) {
         $.ajax({
-            url: "/Home/Delete/" + ID,
+            url: "/Employee/Service/EmployeeService.asmx/DeleteEmployees",
             type: "POST",
+            data:JSON.stringify({ id:Id}),
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
@@ -149,20 +219,40 @@ function Delele(ID) {
         });
     }
 }
+function clearObjectData() {
+    $('#Id').val("");
+    $('#Name').val("");
+    $('#Gender').val("");
+    $('#Salary').val("");
+    $('#Address').val("");
+    $('#Email').val("");
+    $('#Dob').val("");
+    $('#Occupation').val("");
+    $('#IdType').val("");
+    $('#WalletNumber').val("");
+    $('#MobileNumber').val("");
+     $('#myModalLabel').html("Add Employee");
+}
+
+function setBorderColorGrey() {
+    $('#Name').css('border-color', 'lightgrey');
+    $('#Gender').css('border-color', 'lightgrey');
+    $('#Salary').css('border-color', 'lightgrey');
+    $('#Address').css('border-color', 'lightgrey');
+    $('#Email').css('border-color', 'lightgrey');
+    $('#Dob').css('border-color', 'lightgrey');
+    $('#Occupation').css('border-color', 'lightgrey');
+    $('#IdType').css('border-color', 'lightgrey');
+    $('#WalletNumber').css('border-color', 'lightgrey');
+    $('#MobileNumber').css('border-color', 'lightgrey'); 
+}
 
 //Function for clearing the textboxes
 function clearTextBox() {
-    $('#EmployeeID').val("");
-    $('#Name').val("");
-    $('#Age').val("");
-    $('#State').val("");
-    $('#Country').val("");
+    clearObjectData();
     $('#btnUpdate').hide();
     $('#btnAdd').show();
-    $('#Name').css('border-color', 'lightgrey');
-    $('#Age').css('border-color', 'lightgrey');
-    $('#State').css('border-color', 'lightgrey');
-    $('#Country').css('border-color', 'lightgrey');
+    setBorderColorGrey();
 }
 //Valdidation using jquery
 function validate() {

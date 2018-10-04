@@ -7,6 +7,7 @@
     <title>Employee Create</title>
     <link href="../Content/bootstrap.css" rel="stylesheet" />
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="../Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script src="../Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="../Scripts/Employee/employee.js"></script>
@@ -63,32 +64,58 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    @*<button type="button" class="close" data-dissmiss="modal"><span aria-hidden="true">&times;</span></button>*@
+                   <%-- @*<button type="button" class="close" data-dissmiss="modal"><span aria-hidden="true">&times;</span></button>*@--%>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="EmployeeId">ID</label>
-                            <input type="text" class="form-control" id="EmployeeID" placeholder="Id" disabled="disabled"/>
+                            <label for="Id">ID</label>
+                            <input type="number" class="form-control" id="Id" placeholder="Id" disabled="disabled"/>
                         </div>
                         <div class="form-group">
                             <label for="Name">Name</label>
                             <input type="text" class="form-control" id="Name" placeholder="Name"/>
                         </div>
                         <div class="form-group">
-                            <label for="Age">Age</label>
-                            <input type="text" class="form-control" id="Age" placeholder="Age" />
+                            <label for="Gender">Gender</label>
+                            <input type="text" class="form-control" id="Gender" placeholder="Gender" />
                         </div>
                         <div class="form-group">
-                            <label for="State">State</label>
-                            <input type="text" class="form-control" id="State" placeholder="State"/>
+                            <label for="Salary">Salary</label>
+                            <input type="number" class="form-control" id="Salary" placeholder="Salary"/>
                         </div>
                         <div class="form-group">
-                            <label for="Country">Country</label>
-                            <input type="text" class="form-control" id="Country" placeholder="Country"/>
+                            <label for="Address">Address</label>
+                            <input type="text" class="form-control" id="Address" placeholder="Address"/>
                         </div>
+                          
+                          <div class="form-group">
+                            <label for="Email">Email</label>
+                            <input type="email" class="form-control" id="Email" placeholder="Email"/>
+                        </div>
+                          <div class="form-group">
+                            <label for="Dob">Dob</label>
+                            <input type="date"  class="form-control date" id="Dob" placeholder="Dob"/>
+                        </div>
+                          <div class="form-group">
+                            <label for="Occupation">Occupation</label>
+                            <input type="text" class="form-control" id="Occupation" placeholder="Occupation"/>
+                        </div>
+                          <div class="form-group">
+                            <label for="IdType">IdType</label>
+                            <input type="text" class="form-control" id="IdType" placeholder="IdType"/>
+                        </div>
+                          <div class="form-group">
+                            <label for="WalletNumber">WalletNumber</label>
+                            <input type="number" class="form-control" id="WalletNumber" placeholder="WalletNumber"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="MobileNumber">MobileNumber</label>
+                            <input type="number" class="form-control" id="MobileNumber" placeholder="MobileNumber"/>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
