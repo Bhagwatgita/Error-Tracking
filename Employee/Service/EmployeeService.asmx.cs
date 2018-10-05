@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
+using ErrorTracking.Repository.DbHelpers;
 using ErrorTracking.Repository.Employee;
 
 namespace ErrorTracking.Employee.Service
@@ -28,52 +29,27 @@ namespace ErrorTracking.Employee.Service
         }
 
         [WebMethod]
-        public void SaveEmployee(EmployeeModel emp)
+        public DbResult SaveEmployee(EmployeeModel emp)
         {
-            //if (emp==null)
-            //{
-            //    emp = new EmployeeModel()
-            //    {
-            //        Name = $@"Rabindra",
-            //        Gender = "Male",
-            //        Occupation = "Farmer",
-            //        Address = "Kathmandu",
-            //        Dob = Convert.ToDateTime("2018-10-03"),
-            //        IdType = "CitizenShip-Card",
-            //        Email = "rabindra@gmail.com",
-            //        MobileNumber = "9845632233",
-            //        WalletNumber = "4256",
-            //        Salary = Convert.ToDouble(1000)
+            var dr=_empRepository.CreateEmployees(emp);
+            var response = GetResponse(dr);
+            return response;
 
-            //    };
-            //}
-            //var empResp = new EmployeeModel
-            //{
-            //    Name = $@"Rabindra",
-            //    Gender = "Male",
-            //    Occupation = "Farmer",
-            //    Address = "Kathmandu",
-            //    Dob = Convert.ToDateTime("2018-10-03"),
-            //    IdType = "CitizenShip-Card",
-            //    Email = "rabindra@gmail.com",
-            //    MobileNumber = "9845632233",
-            //    WalletNumber = "4256",
-            //    Salary = Convert.ToDouble(1000)
-            //};
-            //_empRepository.CreateEmployees(empResp);
-            _empRepository.CreateEmployees(emp);
-           
         }
          [WebMethod]
-        public void UpdateEmployee(EmployeeModel emp)
+        public DbResult UpdateEmployee(EmployeeModel emp)
         {
-            _empRepository.UpdateEmployees(emp);
+            var dr=_empRepository.UpdateEmployees(emp);
+            var response = GetResponse(dr);
+            return response;
         }
 
         [WebMethod]
-        public void DeleteEmployees(int id)
+        public DbResult DeleteEmployees(int id)
         {
-            _empRepository.DeleteEmployees(id);
+            var dr=_empRepository.DeleteEmployees(id);
+            var response = GetResponse(dr);
+            return response;
         }
         [WebMethod]
         public EmployeeModel RetrieveSingleEmployee(int id)
@@ -117,11 +93,7 @@ namespace ErrorTracking.Employee.Service
                 }
                 else
                 {
-                    //DateTime date;
-                    //DateTime.TryParseExact(Convert.ToString(row["Dob"]), "MM/dd/yyyy",
-                    //    System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None,
-                    //    out date);
-                    //var dob = Convert.ToString(date);
+                  
                     var empResp = new EmployeeModel
                     {
                         Id=Convert.ToInt32(row["Id"]),
@@ -141,6 +113,22 @@ namespace ErrorTracking.Employee.Service
             }
 
             return lstEmployeeResponse;
+        }
+
+        private static DbResult GetResponse(DbResult response)
+        {
+
+            var dr=new DbResult();
+            if (response.ErrorCode.Equals("0"))
+            {
+                dr.SetError(response.ErrorCode, response.Msg, response.Id);
+            }
+            else
+            {
+                dr.SetError(response.ErrorCode, response.Msg, response.Id);
+            }
+
+            return response;
         }
 
 

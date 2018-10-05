@@ -33,8 +33,14 @@ function loadData() {
             $('.tbody').html(html);
         },
         error: function (errormessage) {
-            alert(errormessage.responseText);
-            alert("Data not retrieved");
+            
+             $.gritter.add({
+                    title: '<span style="color: red;">Failure</span>',
+                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
+                    sticky: false,
+                    time: '10000'
+             });
+            
         }
     });
 }
@@ -68,14 +74,24 @@ function Add() {
         dataType: "json",
         
         success: function (result) {
-            debugger;
-            console.log(result);
+             $.gritter.add({
+                title: '<span style="color: green;">Success</span>',
+                text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + result.d.Msg + '</span>',
+                sticky: false,
+                time: '10000'
+                   
+             });
+            
             loadData();
             $('#myModal').modal('hide');
         },
         error: function (errormessage) {
-            debugger;
-            alert(errormessage.responseText);
+              $.gritter.add({
+                    title: '<span style="color: red;">Failure</span>',
+                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
+                    sticky: false,
+                    time: '10000'
+             });
         }
     });
 }
@@ -158,7 +174,12 @@ function getbyID(id) {
             $('#btnAdd').hide();
         },
         error: function (errormessage) {
-            alert(errormessage.responseText);
+             $.gritter.add({
+                    title: '<span style="color: red;">Failure</span>',
+                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
+                    sticky: false,
+                    time: '10000'
+             });
         }
     });
     return false;
@@ -183,19 +204,33 @@ function Update() {
         WalletNumber: $('#WalletNumber').val(),
         MobileNumber: $('#MobileNumber').val()
     };
+    
     $.ajax({
         url: "/Employee/Service/EmployeeService.asmx/UpdateEmployee",
-        data:  JSON.stringify({emp: empObj }),
+        data:  JSON.stringify({ emp: empObj} )  ,
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+            
+            $.gritter.add({
+                title: '<span style="color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;">Success</span>',
+                text: '<span style="color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;font-size: 12px; font-weight: bold;">' + result.d.Msg + '</span>',
+                sticky: false,
+                time: '10000'
+                   
+             });
             loadData();
             $('#myModal').modal('hide');
             clearObjectData();
         },
         error: function (errormessage) {
-            alert(errormessage.responseText);
+             $.gritter.add({
+                    title: '<span style="color: red;">Failure</span>',
+                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
+                    sticky: false,
+                    time: '10000'
+             });
         }
     });
 }
@@ -211,10 +246,21 @@ function Delele(Id) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
+                 $.gritter.add({
+                   title: '<span style="color: green;">Success</span>',
+                   text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + result.d.Msg + '</span>',
+                   sticky: false,
+                   time: '10000'
+             });
                 loadData();
             },
             error: function (errormessage) {
-                alert(errormessage.responseText);
+                  $.gritter.add({
+                    title: '<span style="color: red;">Failure</span>',
+                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
+                    sticky: false,
+                    time: '10000'
+             });
             }
         });
     }

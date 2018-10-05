@@ -17,9 +17,9 @@ namespace ErrorTracking.Repository.Employee
         {
                 this._dao=new Dao();
         }
-        public DataTable CreateEmployees(EmployeeModel employeeModel)
+        public DbResult CreateEmployees(EmployeeModel employeeModel)
         {
-            var sql = "EXEC proc_EmployeeOperation";
+            var sql = "EXEC proc_EmployeeTask";
             sql += " @flag = 'i'";
             sql += ", @name = " + _dao.FilterString(employeeModel.Name);
             sql += ", @gender = " + _dao.FilterString(employeeModel.Gender);
@@ -31,12 +31,12 @@ namespace ErrorTracking.Repository.Employee
             sql += ", @idType = " + _dao.FilterString(employeeModel.IdType);
             sql += ", @walletNumber = " + _dao.FilterString(employeeModel.WalletNumber);
             sql += ", @mobileNumber = " + _dao.FilterString(employeeModel.MobileNumber);
-            return _dao.ExecuteDataTable(sql);
+            return _dao.ParseDbResult(sql);
 
         }
-        public DataTable UpdateEmployees(EmployeeModel employeeModel)
+        public DbResult UpdateEmployees(EmployeeModel employeeModel)
         {
-            var sql = "EXEC proc_EmployeeOperation";
+            var sql = "EXEC proc_EmployeeTask";
             sql += " @flag = 'u'";
             sql += ", @name = " + _dao.FilterString(employeeModel.Name);
             sql += ", @gender = " + _dao.FilterString(employeeModel.Gender);
@@ -49,27 +49,27 @@ namespace ErrorTracking.Repository.Employee
             sql += ", @walletNumber = " + _dao.FilterString(employeeModel.WalletNumber);
             sql += ", @mobileNumber = " + _dao.FilterString(employeeModel.MobileNumber);
             sql += ", @Id = " + _dao.FilterString(employeeModel.Id.ToString());
-            return _dao.ExecuteDataTable(sql);
+            return _dao.ParseDbResult(sql);
 
         }
-        public DataTable DeleteEmployees(int id)
+        public DbResult DeleteEmployees(int id)
         {
-            var sql = "EXEC proc_EmployeeOperation";
+            var sql = "EXEC proc_EmployeeTask";
             sql += " @flag = 'd'";
             sql += ", @Id = " + _dao.FilterString(id.ToString());
-            return _dao.ExecuteDataTable(sql);
+            return _dao.ParseDbResult(sql);
 
         }
         public DataTable RetrieveAllEmployees()
         {
-            var sql = "EXEC proc_EmployeeOperation";
+            var sql = "EXEC proc_EmployeeTask";
             sql += " @flag = 'sa'";
             return _dao.ExecuteDataTable(sql);
 
         }
         public DataRow RetrieveSpecificEmployees(int? Id)
         {
-            var sql = "EXEC proc_EmployeeOperation";
+            var sql = "EXEC proc_EmployeeTask";
             sql += " @flag = 's-one'";
             sql += ", @Id = " + Id;
             return _dao.ExecuteDataRow(sql);

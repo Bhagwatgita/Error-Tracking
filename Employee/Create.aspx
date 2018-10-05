@@ -6,10 +6,12 @@
 <head runat="server">
     <title>Employee Create</title>
     <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/jquery.gritter.css" rel="stylesheet" />
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script src="../Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="../Scripts/jquery.gritter.min.js"></script>
     <script src="../Scripts/Employee/employee.js"></script>
 </head>
 <body>
