@@ -21,7 +21,7 @@ namespace ErrorTracking.Employee.Service
    [System.Web.Script.Services.ScriptService]
     public class EmployeeService : System.Web.Services.WebService
     {
-        private EmployeeRepository _empRepository;
+        private readonly EmployeeRepository _empRepository;
 
         public EmployeeService()
         {
@@ -70,7 +70,7 @@ namespace ErrorTracking.Employee.Service
                 IdType = Convert.ToString(dt["IdType"]),
                 MobileNumber = Convert.ToString(dt["MobileNumber"]),
                 WalletNumber = Convert.ToString(dt["WalletNumber"]),
-                Salary = Convert.ToDouble(Convert.ToString(dt["Salary"]))
+                Salary = Convert.ToString(dt["Salary"])
             };
                 
                 }
@@ -106,7 +106,7 @@ namespace ErrorTracking.Employee.Service
                         Email = Convert.ToString(row["Email"]),
                         MobileNumber = Convert.ToString(row["MobileNumber"]),
                         WalletNumber = Convert.ToString(row["WalletNumber"]),
-                        Salary = Convert.ToDouble(Convert.ToString(row["Salary"]))
+                        Salary = Convert.ToString(row["Salary"])
                     };
                     lstEmployeeResponse.Add(empResp);
                 }

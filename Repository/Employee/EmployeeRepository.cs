@@ -23,10 +23,10 @@ namespace ErrorTracking.Repository.Employee
             sql += " @flag = 'i'";
             sql += ", @name = " + _dao.FilterString(employeeModel.Name);
             sql += ", @gender = " + _dao.FilterString(employeeModel.Gender);
-            sql += ", @salary = " + Convert.ToDouble(employeeModel.Salary);
+            sql += ", @salary = " +_dao.FilterString(Convert.ToString(employeeModel.Salary));
             sql += ", @address = " + _dao.FilterString(employeeModel.Address);
             sql += ", @email = " + _dao.FilterString(employeeModel.Email);
-            sql += ", @dob = " + _dao.ParseDate(Convert.ToString(employeeModel.Dob, CultureInfo.InvariantCulture));
+            sql += ", @dob = " + _dao.ParseDate(Convert.ToString(employeeModel.Dob));
             sql += ", @occupation = " + _dao.FilterString(employeeModel.Occupation);
             sql += ", @idType = " + _dao.FilterString(employeeModel.IdType);
             sql += ", @walletNumber = " + _dao.FilterString(employeeModel.WalletNumber);
@@ -40,7 +40,7 @@ namespace ErrorTracking.Repository.Employee
             sql += " @flag = 'u'";
             sql += ", @name = " + _dao.FilterString(employeeModel.Name);
             sql += ", @gender = " + _dao.FilterString(employeeModel.Gender);
-            sql += ", @salary = " + _dao.FilterString(Convert.ToString(employeeModel.Salary, CultureInfo.InvariantCulture));
+            sql += ", @salary = " + _dao.FilterString(Convert.ToString(employeeModel.Salary));
             sql += ", @address = " + _dao.FilterString(employeeModel.Address);
             sql += ", @email = " + _dao.FilterString(employeeModel.Email);
             sql += ", @dob = " + _dao.ParseDate(Convert.ToString(employeeModel.Dob, CultureInfo.InvariantCulture));
@@ -82,7 +82,7 @@ namespace ErrorTracking.Repository.Employee
         public int Id { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
-        public double Salary { get; set; }
+        public string Salary { get; set; } 
         public string Address { get; set; }
         public string Email { get; set; }
         public string Dob { get; set; }

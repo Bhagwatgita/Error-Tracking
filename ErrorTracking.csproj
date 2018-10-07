@@ -128,6 +128,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.validator.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -353,8 +354,12 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Images\error-icon.png" />
+    <Content Include="Images\success-icon.png" />
+    <Content Include="Images\warning-icon.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.validator.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
@@ -469,6 +474,7 @@
     <Content Include="System_Error_Log\ErrorLogs.sql" />
     <Content Include="System_Error_Log\MenuPopulate.sql" />
     <Content Include="System_Error_Log\proc_EmployeeOperation.sql" />
+    <Content Include="System_Error_Log\proc_EmployeeTask.sql" />
     <Content Include="System_Error_Log\proc_menuPopulate.sql" />
     <Content Include="System_Error_Log\Role_Menu_Learn.sql" />
     <Content Include="ViewSwitcher.ascx" />

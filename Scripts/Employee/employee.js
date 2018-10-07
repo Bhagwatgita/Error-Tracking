@@ -3,9 +3,28 @@
 //Load Data in Table when documents is ready
 $(document).ready(function () {
     loadData();
+   //loadValidator();
 });
-
-//Load Data function
+//Date Time Picker on load of page
+ $( function() {
+     $("#Dob").datepicker({
+         beforeShow: customRange,
+          mandatory: true
+     });
+});
+function customRange(input) { 
+	var date  = new  Date();
+	var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();           
+	return { 
+			minDate: (input.id == "#Dob" ?
+				$("#txtStartDate").datepicker("getDate") : 
+				new Date(1969, 12,01 )), 
+			maxDate: (input.id == "star.datepickerer" ? 
+				$("#Dob").datepicker("getDate") : 
+				new Date(y, m, d))
+             };
+}
+//Load Data on page load
 function loadData() {
     $.ajax({
         url: "/Employee/Service/EmployeeService.asmx/RetrieveAllEmployeeData",
@@ -32,14 +51,9 @@ function loadData() {
             });
             $('.tbody').html(html);
         },
-        error: function (errormessage) {
+        error: function (err) {
             
-             $.gritter.add({
-                    title: '<span style="color: red;">Failure</span>',
-                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
-                    sticky: false,
-                    time: '10000'
-             });
+            AlertMessage(err.responseText, 1);
             
         }
     });
@@ -51,8 +65,8 @@ function Add() {
     //if (res == false) {
     //    return false;
     //}
+     //EnableDisableButton();
     var emp = {
-        //Id: $('#EmployeeID').val(),
         Name: $('#Name').val(),
         Gender: $('#Gender').val(),
         Salary: $('#Salary').val(),
@@ -65,7 +79,7 @@ function Add() {
         MobileNumber: $('#MobileNumber').val()
     };
     console.log(emp);
-    alert(JSON.stringify({emp: emp }));
+    
     $.ajax({
         url: "/Employee/Service/EmployeeService.asmx/SaveEmployee",
         data:  JSON.stringify({emp: emp }),
@@ -74,62 +88,23 @@ function Add() {
         dataType: "json",
         
         success: function (result) {
-             $.gritter.add({
-                title: '<span style="color: green;">Success</span>',
-                text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + result.d.Msg + '</span>',
-                sticky: false,
-                time: '10000'
-                   
-             });
+            if (result.d.ErrorCode == "0") {
+                AlertMessage(result.d.Msg, result.d.ErrorCode);
+                loadData();
+                $('#myModal').modal('hide');
+
+            } else if(result.d.ErrorCode == "1"){
+                AlertMessage(result.d.Msg, result.d.ErrorCode);
+                loadData();
+                $('#myModal').modal('show');
+            }
             
-            loadData();
-            $('#myModal').modal('hide');
         },
-        error: function (errormessage) {
-              $.gritter.add({
-                    title: '<span style="color: red;">Failure</span>',
-                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
-                    sticky: false,
-                    time: '10000'
-             });
+        error: function (err) {
+             AlertMessage(err.responseText, 1);
         }
     });
 }
-//function getbyID(id) {
-//    var settings = {
-//  "async": true,
-//  "crossDomain": true,
-//  "url": "/Employee/Service/EmployeeService.asmx/RetrieveSingleEmployee",
-//  "method": "POST",
-//  "headers": {
-//    "Content-Type": "application/json",
-//    "Cache-Control": "no-cache",
-//    "Postman-Token": "b6c372b5-9f2a-46d4-a99d-c1ba44807486"
-//  },
-//  "processData": false,
-//  "data": "{\n\"id\":\"2\"\n}\n\t\n   \n"
-//}
-
-//$.ajax(settings).done(function (result) {
-//    console.log(result);
-//     $('#Id').val(result.d.Id);
-//            $('#Name').val(result.d.Name);
-//            $('#Gender').val(result.d.Gender);
-//            $('#Salary').val(result.d.Salary);
-//            $('#Address').val(result.d.Address);
-//            $('#Email').val(result.d.Email);
-//            $('#Dob').val(result.d.Dob);
-//            $('#Occupation').val(result.d.Occupation);
-//            $('#IdType').val(result.d.IdType);
-//            $('#WalletNumber').val(result.d.WalletNumber);
-//            $('#MobileNumber').val(result.d.MobileNumber);
-
-//            $('#myModal').modal('show');
-//            $('#btnUpdate').show();
-//            $('#btnAdd').hide();
-
-//});
-//}
 
 $.date = function(dateObject) {
     var d = new Date(dateObject);
@@ -146,9 +121,12 @@ $.date = function(dateObject) {
 
     return date;
 };
+//usage $.date(result.d.Dob)
+
 //Function for getting the Data Based upon Employee ID
 function getbyID(id) {
-    setBorderColorGrey();
+    //setBorderColorGrey();
+   
     $.ajax({
         url: "/Employee/Service/EmployeeService.asmx/RetrieveSingleEmployee",
         type: "POST",
@@ -162,7 +140,7 @@ function getbyID(id) {
             $('#Salary').val(result.d.Salary);
             $('#Address').val(result.d.Address);
             $('#Email').val(result.d.Email);
-            $('#Dob').attr("value",$.date(result.d.Dob));
+            $('#Dob').val(result.d.Dob);
             $('#Occupation').val(result.d.Occupation);
             $('#IdType').val(result.d.IdType);
             $('#WalletNumber').val(result.d.WalletNumber);
@@ -173,13 +151,8 @@ function getbyID(id) {
             $('#btnUpdate').show();
             $('#btnAdd').hide();
         },
-        error: function (errormessage) {
-             $.gritter.add({
-                    title: '<span style="color: red;">Failure</span>',
-                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
-                    sticky: false,
-                    time: '10000'
-             });
+        error: function (err) {
+              AlertMessage(err.responseText, 1);
         }
     });
     return false;
@@ -191,6 +164,7 @@ function Update() {
     //if (res == false) {
     //    return false;
     //}
+    
     var empObj = {
         Id: $('#Id').val(),
         Name: $('#Name').val(),
@@ -212,25 +186,14 @@ function Update() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            
-            $.gritter.add({
-                title: '<span style="color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;">Success</span>',
-                text: '<span style="color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;font-size: 12px; font-weight: bold;">' + result.d.Msg + '</span>',
-                sticky: false,
-                time: '10000'
-                   
-             });
+            debugger;
+            AlertMessage(result.d.Msg, result.d.ErrorCode);
             loadData();
             $('#myModal').modal('hide');
             clearObjectData();
         },
-        error: function (errormessage) {
-             $.gritter.add({
-                    title: '<span style="color: red;">Failure</span>',
-                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
-                    sticky: false,
-                    time: '10000'
-             });
+        error: function (err) {
+             AlertMessage(err.responseText, 1);
         }
     });
 }
@@ -246,24 +209,38 @@ function Delele(Id) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {
-                 $.gritter.add({
-                   title: '<span style="color: green;">Success</span>',
-                   text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + result.d.Msg + '</span>',
-                   sticky: false,
-                   time: '10000'
-             });
+                AlertMessage(result.d.Msg, result.d.Id);
                 loadData();
             },
-            error: function (errormessage) {
-                  $.gritter.add({
-                    title: '<span style="color: red;">Failure</span>',
-                    text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + errormessage.responseText + '</span>',
-                    sticky: false,
-                    time: '10000'
-             });
+            error: function (err) {
+                AlertMessage(err.responseText, 1);
+                
             }
         });
     }
+}
+function AlertMessage(msg, msgId) {
+    switch (msgId) {
+        case "0":
+             $.gritter.add({
+                        title: '<span style="color: green;">Success</span>',
+                        text: '<span style="color: green; font-size: 12px; font-weight: bold;">' + msg + '</span>',
+                        image: '/Images/success-icon.png',
+                        sticky: false,
+                        time: '10000'
+                });
+            break;
+        case "1":
+            $.gritter.add({
+                        title: '<span style="color: red;">Failure</span>',
+                        text: '<span style="color: red; font-size: 12px; font-weight: bold;">' + msg + '</span>',
+                        image: '/Images/error-icon.png',
+                        sticky: false,
+                        time: '10000'
+             });
+            break;
+    }
+
 }
 function clearObjectData() {
     $('#Id').val("");
@@ -277,7 +254,7 @@ function clearObjectData() {
     $('#IdType').val("");
     $('#WalletNumber').val("");
     $('#MobileNumber').val("");
-     $('#myModalLabel').html("Add Employee");
+    $('#myModalLabel').html("Add Employee");
 }
 
 function setBorderColorGrey() {
@@ -295,12 +272,13 @@ function setBorderColorGrey() {
 
 //Function for clearing the textboxes
 function clearTextBox() {
+    
     clearObjectData();
     $('#btnUpdate').hide();
     $('#btnAdd').show();
-    setBorderColorGrey();
+    //setBorderColorGrey();
 }
-//Valdidation using jquery
+//Validation using jquery
 function validate() {
     var isValid = true;
     if ($('#Name').val().trim() == "") {
@@ -310,26 +288,233 @@ function validate() {
     else {
         $('#Name').css('border-color', 'lightgrey');
     }
-    if ($('#Age').val().trim() == "") {
-        $('#Age').css('border-color', 'Red');
+    if ($('#Gender').val().trim() == "") {
+        $('#Gender').css('border-color', 'Red');
         isValid = false;
     }
     else {
-        $('#Age').css('border-color', 'lightgrey');
+        $('#Gender').css('border-color', 'lightgrey');
     }
-    if ($('#State').val().trim() == "") {
-        $('#State').css('border-color', 'Red');
+    if ($('#Salary').val().trim() == "") {
+        $('#Salary').css('border-color', 'Red');
         isValid = false;
     }
     else {
-        $('#State').css('border-color', 'lightgrey');
+        $('#Salary').css('border-color', 'lightgrey');
     }
-    if ($('#Country').val().trim() == "") {
-        $('#Country').css('border-color', 'Red');
+    if ($('#Address').val().trim() == "") {
+        $('#Address').css('border-color', 'Red');
         isValid = false;
     }
     else {
-        $('#Country').css('border-color', 'lightgrey');
+        $('#Address').css('border-color', 'lightgrey');
     }
+    if ($('#Email').val().trim() == "") {
+        $('#Email').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#Email').css('border-color', 'lightgrey');
+    }
+    if ($('#Dob').val().trim() == "") {
+        $('#Dob').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#Dob').css('border-color', 'lightgrey');
+    }
+    if ($('#Occupation').val().trim() == "") {
+        $('#Occupation').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#Occupation').css('border-color', 'lightgrey');
+    }
+    if ($('#IdType').val().trim() == "") {
+        $('#IdType').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#IdType').css('border-color', 'lightgrey');
+    }
+    if ($('#WalletNumber').val().trim() == "") {
+        $('#WalletNumber').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#WalletNumber').css('border-color', 'lightgrey');
+    }
+    if ($('#MobileNumber').val().trim() == "") {
+        $('#MobileNumber').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#MobileNumber').css('border-color', 'lightgrey');
+    }
+
     return isValid;
 }
+
+//bootstrap validator
+$(function () {
+    
+    $('#employeeForm').bootstrapValidator({
+        //container: '#messages',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            Name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Name field is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 255,
+                        min: 10,
+                        message: 'The Name field must be greater than 10 characters long'
+                    }
+                }
+            },
+            Email: {
+                validators: {
+                    notEmpty: {
+                        message: 'The email address is required and cannot be empty'
+                    },
+                    emailAddress: {
+                        message: 'The email address is not valid'
+                    }
+                }
+            },
+            Gender: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Gender field is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 6,
+                        min: 4,
+                        message: 'The Gender field must be less than 6 characters long'
+                    }
+                }
+            },
+            Salary: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Salary is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 10,
+                        min: 4,
+                        message: 'The Salary field must be greater than 4 characters long'
+                    }
+                }
+            },
+            Address: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Address field is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 20,
+                        min:5,
+                        message: 'The Address field must be greater than 5 characters long'
+                    }
+                }
+            },
+             Dob: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Date of Birth field is required and cannot be empty'
+                    }
+                }
+            },
+             Occupation: {
+                validators: {
+                    notEmpty: {
+                        message: 'The Occupation field is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 50,
+                        min:5,
+                        message: 'The Occupation field must be greater than 5 characters long'
+                    }
+                }
+            },
+             IdType: {
+                validators: {
+                    notEmpty: {
+                        message: 'The IdType field is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 50,
+                        min:8,
+                        message: 'The IdType field must be greater than 8 characters long'
+                    }
+                }
+            },
+             WalletNumber: {
+                validators: {
+                    notEmpty: {
+                        message: 'The WalletNumber field is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max: 10,
+                        min:10,
+                        message: 'The WalletNumber field must be 5 characters long'
+                    }
+                }
+            },
+            MobileNumber: {
+                validators: {
+                    notEmpty: {
+                        message: 'The MobileNumber field is required and cannot be empty'
+                    },
+                    stringLength: {
+                        max:10,
+                        min: 10,
+                        message: 'The MobileNumber field must be 10 characters long'
+                    }
+                }
+            }
+
+
+        }
+        //,
+        // submitHandler: function(validator, form, submitButton) {
+        //     EnableDisableButton();
+        // }
+        //.on('success.field.fv', function(e, data) {
+        //    if (data.fv.getInvalidFields().length > 0) {    // There is invalid field
+        //        //data.fv.disableSubmitButtons(true);
+        //        $('#btnAdd').attr('disabled', 'disabled');
+
+        //    }
+        //})
+       
+    
+    });
+});
+function EnableDisableButton() {
+    var x = $('.bv-hidden-submit').attr('disabled');
+    
+    if (x == "disabled") {
+        $('#btnAdd').attr('disabled', 'disabled');
+    } else {
+        $('#btnAdd').removeAttr('disabled');
+    }
+}
+
+$(function() {
+    $('#employeeForm').on( "valid.bs.validator", function() {
+        $('#btnAdd').removeClass("disabled");        // enables button
+        console.log("VALID FORM");
+    });
+
+    $('#employeeForm').on( "invalid.bs.validator", function() {
+        $('#btnAdd').addClass('disabled');
+        console.log("INVALID FORM");
+    });
+});

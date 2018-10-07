@@ -43,6 +43,16 @@ AS
 					SELECT 1 ErrorCode, 'User Name already exists.' mes, NULL paramKey
 					RETURN
 				END
+				IF(	@name IS  NULL OR @gender IS  NULL OR @salary IS  NULL
+					OR @address IS  NULL OR @email IS  NULL OR @dob IS  NULL OR
+					@occupation IS  NULL OR @idType IS  NULL OR @walletNumber IS  NULL 
+					OR @mobileNumber IS NULL
+					)
+				BEGIN
+					SELECT 1 ErrorCode, 'Required field are empty or invalid.' mes, NULL paramKey
+					RETURN
+				END
+                
 		
 				BEGIN TRANSACTION	
 					INSERT INTO dbo.Employee(
@@ -111,6 +121,15 @@ AS
 				IF @Id IS NULL
 					BEGIN
 						SELECT 1 ErrorCode,'Id field is Required' mes,NULL Id
+						RETURN
+					END
+				IF(	@name IS  NULL OR @gender IS  NULL OR @salary IS  NULL
+					OR @address IS  NULL OR @email IS  NULL OR @dob IS  NULL OR
+					@occupation IS  NULL OR @idType IS  NULL OR @walletNumber IS  NULL 
+					OR @mobileNumber IS NULL
+					)
+					BEGIN
+						SELECT 1 ErrorCode, 'Required field are empty or invalid.' mes, NULL paramKey
 						RETURN
 					END
 				IF NOT EXISTS(SELECT 'X' FROM dbo.Employee(NOLOCK) s  WHERE s.Id=@Id)
