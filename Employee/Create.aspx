@@ -25,7 +25,7 @@
      <div class="container">
         <h2>Employees Record</h2> 
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New Employee</button><br /><br />
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-responsive table-hover">
             <thead>
                 <tr>
                     <th>
@@ -80,7 +80,7 @@
                     <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="employeeForm" method="post">
+                    <form id="employeeForm">
                         <div class="form-group">
                             <label for="Id">ID</label>
                             <input type="number" class="form-control" id="Id" name="Id" placeholder="Id" disabled="disabled"/>
@@ -124,15 +124,15 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="MobileNumber">MobileNumber</label>
-                            <input type="number" class="form-control control-label" id="MobileNumber" name="MobileNumber" placeholder="MobileNumber"/>
+                            <input type="number" class="form-control" id="MobileNumber" name="MobileNumber" placeholder="MobileNumber"/>
                         </div>
                         
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
-                    <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                    <button type="submit" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+                    <button type="submit" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

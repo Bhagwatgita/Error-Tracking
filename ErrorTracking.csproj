@@ -336,6 +336,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Employee\Create.aspx" />
     <Content Include="Employee\Service\EmployeeService.asmx" />
+    <Content Include="Employee\Test.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="ErrorView\List.aspx" />
     <Content Include="ErrorView\Manage.aspx" />
@@ -516,6 +517,13 @@
     <Compile Include="Employee\Service\EmployeeService.asmx.cs">
       <DependentUpon>EmployeeService.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Employee\Test.aspx.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Employee\Test.aspx.designer.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
     </Compile>
     <Compile Include="Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>

@@ -61,10 +61,10 @@ function loadData() {
 
 //Add Data Function 
 function Add() {
-    //var res = validate();
-    //if (res == false) {
-    //    return false;
-    //}
+    var res = bsValidate();
+    if (res == false) {
+        return false;
+    }
      //EnableDisableButton();
     var emp = {
         Name: $('#Name').val(),
@@ -101,7 +101,7 @@ function Add() {
             
         },
         error: function (err) {
-             AlertMessage(err.responseText, 1);
+             AlertMessage(err.responseText, "1");
         }
     });
 }
@@ -152,7 +152,7 @@ function getbyID(id) {
             $('#btnAdd').hide();
         },
         error: function (err) {
-              AlertMessage(err.responseText, 1);
+              AlertMessage(err.responseText, "1");
         }
     });
     return false;
@@ -160,10 +160,10 @@ function getbyID(id) {
 
 //function for updating employee's record
 function Update() {
-    //var res = validate();
-    //if (res == false) {
-    //    return false;
-    //}
+    var res = bsValidate();
+    if (res == false) {
+        return false;
+    }
     
     var empObj = {
         Id: $('#Id').val(),
@@ -193,7 +193,7 @@ function Update() {
             clearObjectData();
         },
         error: function (err) {
-             AlertMessage(err.responseText, 1);
+             AlertMessage(err.responseText, "1");
         }
     });
 }
@@ -213,7 +213,7 @@ function Delele(Id) {
                 loadData();
             },
             error: function (err) {
-                AlertMessage(err.responseText, 1);
+                AlertMessage(err.responseText, "1");
                 
             }
         });
@@ -279,6 +279,17 @@ function clearTextBox() {
     //setBorderColorGrey();
 }
 //Validation using jquery
+function bsValidate() {
+    var isValid = true;
+    var x = $('.bv-hidden-submit').attr('disabled');
+    if (x == "disabled") {
+        debugger;
+        AlertMessage('Sorry !!! Some field are required to be validated.', "1");
+        isValid = false;
+    }
+    return isValid;
+
+}
 function validate() {
     var isValid = true;
     if ($('#Name').val().trim() == "") {
@@ -360,6 +371,7 @@ $(function () {
     
     $('#employeeForm').bootstrapValidator({
         //container: '#messages',
+        framework: 'bootstrap',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
@@ -497,24 +509,50 @@ $(function () {
     
     });
 });
-function EnableDisableButton() {
-    var x = $('.bv-hidden-submit').attr('disabled');
+//function EnableDisableButton() {
+//    var x = $('.bv-hidden-submit').attr('disabled');
     
-    if (x == "disabled") {
-        $('#btnAdd').attr('disabled', 'disabled');
-    } else {
-        $('#btnAdd').removeAttr('disabled');
-    }
-}
+//    if (x == "disabled") {
+//        $('#btnAdd').attr('disabled', 'disabled');
+//    } else {
+//        $('#btnAdd').removeAttr('disabled');
+//    }
+//}
 
-$(function() {
-    $('#employeeForm').on( "valid.bs.validator", function() {
-        $('#btnAdd').removeClass("disabled");        // enables button
-        console.log("VALID FORM");
-    });
+//$(function() {
+//    //$('#employeeForm').on( "valid.bs.validator", function() {
+//    //    $('#btnAdd').removeClass("disabled");        // enables button
+//    //    console.log("VALID FORM");
+//    //});
 
-    $('#employeeForm').on( "invalid.bs.validator", function() {
-        $('#btnAdd').addClass('disabled');
-        console.log("INVALID FORM");
-    });
-});
+//    //$('#employeeForm').on( "invalid.bs.validator", function() {
+//    //    $('#btnAdd').addClass('disabled');
+//    //    console.log("INVALID FORM");
+//    //});
+
+//    $('#employeeForm :input.form-control').change(function (e) {
+
+//        var x = $('.bv-hidden-submit').attr('disabled');
+        
+    
+//    if (x == "disabled") {
+//        $('#btnAdd').attr('disabled', 'disabled');
+//    } else {
+//        $('#btnAdd').removeAttr('disabled');
+//    }
+//       // $(e.target).attr('id')
+//   //$('#log').prepend('<p>Form changed ' + $(e.target).attr('id') + '</p>')
+
+//    });
+
+//    //$('#employeeForm').on('submit',
+//    //    function(e) {
+//    //        if (e.isDefaultPrevented()) {
+//    //            alert('Invalid form');
+//    //            // handle the invalid form...
+//    //        } else {
+//    //            // everything looks good!
+//    //            alert('Valid form');
+//    //        }
+//    //    });
+//});
